@@ -12,7 +12,7 @@ ap.add_argument("-a", "--min-area", type=int, default=500, help="minimum area si
 # args = vars(ap.parse_args())
 
 # if the video argument is None, then we are reading from webcam
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(0)
 time.sleep(0.25)
 
 # initialize the first frame in the video stream
@@ -47,6 +47,7 @@ while True:
 
 	# dilate the thresholded image to fill in holes, then find contours
 	# on thresholded image
+	# print thresh[100,100]
 	thresh = cv2.dilate(thresh, None, iterations=2)
 	(cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
 		cv2.CHAIN_APPROX_SIMPLE)
@@ -54,7 +55,7 @@ while True:
 	# loop over the contours
 	for c in cnts:
 		# if the contour is too small, ignore it
-		if cv2.contourArea(c) < 500: # args["min_area"]:
+		if cv2.contourArea(c) < 3000: # args["min_area"]:
 			continue
 
 		# compute the bounding box for the contour, draw it on the frame,
