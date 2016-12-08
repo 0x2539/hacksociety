@@ -9,22 +9,26 @@ def thresh_callback(thresh):
         #color = np.random.randint(0,255,(3)).tolist()  # Select a random color
         cv2.drawContours(drawing,[cnt],0,(255,255,255),2)
         cv2.CHAIN_APPROX_SIMPLE
-        cv2.imshow('output',drawing)
+        #cv2.imshow('output',drawing)
     #cv2.imshow('input',img)
     return drawing
+cap = cv2.VideoCapture(0)
+while(True):
 
-img = cv2.imread('poze_mici.jpg')
-gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-blur = cv2.GaussianBlur(gray,(5,5),0)
+	ret,img = cap.read()
+	gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+	blur = cv2.GaussianBlur(gray,(5,5),0)
 
 #cv2.namedWindow('input',cv2.WINDOW_AUTOSIZE)
 
-thresh = 100
-max_thresh = 255
+	thresh = 100
+	max_thresh = 255
 
 #cv2.createTrackbar('canny thresh:','input',thresh,max_thresh,thresh_callback)
-
-drawing = thresh_callback(thresh)
-#cv2.imshow('im',drawing)
-if cv2.waitKey(0) == 27:
-	cv2.destroyAllWindows()
+	cv2.imshow('original',img)
+	drawing = thresh_callback(thresh)
+	cv2.imshow('im',drawing)
+	if cv2.waitKey(1) & 0xFF == ord('q'):
+		break
+cap.release()
+cv2.destroyAllWindows()
