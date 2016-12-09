@@ -12,7 +12,7 @@ ap.add_argument("-a", "--min-area", type=int, default=500, help="minimum area si
 # args = vars(ap.parse_args())
 
 # if the video argument is None, then we are reading from webcam
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(0)
 time.sleep(0.25)
 
 # initialize the first frame in the video stream
