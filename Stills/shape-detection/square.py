@@ -18,8 +18,8 @@ while(True):
 	for i in range(len(x)):
 		corners[i] = (y[i],x[i])
 	print corners
-	#hull = cv2.convexHull(corners)
-	#cv2.drawContours(img,[hull],0,(0,255,0),-1)
+	hull = cv2.convexHull(corners)
+	cv2.drawContours(img,[hull],0,(0,255,0),-1)
 	cv2.imshow('dst',img)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
