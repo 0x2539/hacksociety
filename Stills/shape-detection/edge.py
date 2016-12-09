@@ -6,25 +6,19 @@ def thresh_callback(thresh):
     drawing = np.zeros(img.shape,np.uint8)     # Image to draw the contours
     contours,hierarchy = cv2.findContours(edges,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     for cnt in contours:
-        #color = np.random.randint(0,255,(3)).tolist()  # Select a random color
-        cv2.drawContours(drawing,[cnt],0,(255,255,255),2)
+        cv2.drawContours(drawing,[cnt],0,(255,255,255),3)
         cv2.CHAIN_APPROX_SIMPLE
         cv2.imshow('output',drawing)
-    #cv2.imshow('input',img)
     return drawing
 
-img = cv2.imread('poze_mici.jpg')
+img = cv2.imread('patrat.jpg')
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 blur = cv2.GaussianBlur(gray,(5,5),0)
-
-#cv2.namedWindow('input',cv2.WINDOW_AUTOSIZE)
-
 thresh = 100
 max_thresh = 255
-
-#cv2.createTrackbar('canny thresh:','input',thresh,max_thresh,thresh_callback)
-
 drawing = thresh_callback(thresh)
-#cv2.imshow('im',drawing)
+cv2.imshow('im',drawing)
+cv2.imwrite('corect.png',drawing)
+print drawing
 if cv2.waitKey(0) == 27:
 	cv2.destroyAllWindows()
