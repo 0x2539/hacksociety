@@ -43,12 +43,13 @@ while(True):
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     # gray = cv2.GaussianBlur(gray, (21, 21), 0)
     ret,thresh = cv2.threshold(gray,160,255,1)
-
-    contours,h = cv2.findContours(thresh,1,2)  
+    contours,h = cv2.findContours(thresh,3,5) 
+    print len(contours) 
     for cnt in contours:
+        print 'yes'
         #print img[0]
-        hull = fill(cnt,img.shape[1],img.shape[0])
-        # approx = cv2.approxPolyDP(cnt,0.01*cv2.arcLength(cnt,True),True)
+        #hull = fill(cnt,img.shape[1],img.shape[0])
+        #approx = cv2.approxPolyDP(cnt,0.01*cv2.arcLength(cnt,True),True)
         # if len(approx)==5:
         #     cv2.drawContours(img,[cnt],0,255,-1)
         # elif len(approx)==3:
@@ -59,11 +60,11 @@ while(True):
         #     cv2.drawContours(img,[cnt],0,random_color(),-1)
         # elif len(approx) > 15:
         #     cv2.drawContours(img,[cnt],0,random_color(),-1)
-    cv2.drawContours(img,[hull],0,(0,255,0),-1)
-    cv2.imshow('img',img)
-    #cv2.imshow('th',thresh)
+        #cv2.drawContours(img,[hull],0,(0,255,0),-1)
+            #cv2.imshow('th',thresh)
     #cv2.imshow('gray',gray)
-    
+    cv2.imshow('img',img)
+
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 cap.release()
