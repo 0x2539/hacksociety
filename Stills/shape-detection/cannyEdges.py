@@ -33,10 +33,10 @@ def thresh_callback(thresh):
     edges = cv2.Canny(blur,thresh,thresh*2)
     drawing = np.zeros(img.shape,np.uint8)     # Image to draw the contours
     contours,hierarchy = cv2.findContours(edges,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    # for cnt in contours:
-    #     cv2.drawContours(drawing,[cnt],0,(255,255,255),2)
+    for cnt in contours:
+        cv2.drawContours(drawing,[cnt],0,(255,255,255),2)
     #     cv2.CHAIN_APPROX_SIMPLE
-    return contours
+    return contours, drawing
 cap = cv2.VideoCapture(0)
 while(True):
 
@@ -46,11 +46,15 @@ while(True):
 	thresh = 100
 	max_thresh = 255
 	cv2.imshow('original',img)
-	contours = thresh_callback(thresh)
+	contours, dr = thresh_callback(thresh)
+	a = [len(c) for c in contours]
+	print len(contours), a, len(contours)
 	for cnt in contours:
+		#if (len(cnt) >50 and len(cnt)<90) or (len(cnt)>160 and len(cnt)<300):
 		hull = fill(cnt,img.shape[1],img.shape[0])
-		cv2.drawContours(img,[hull],0,(0,255,0),2)
-	cv2.imshow('im',img)
+		cv2.drawContours(img,[hull],0,(0,255,0),-1)
+	#cv2.imshow('im',img)
+	#cv2.imshow('im2',dr)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
 cap.release()
