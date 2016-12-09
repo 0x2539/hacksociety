@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from math import sqrt
 from shape_detector import ShapeDetector
-def dist_p(x,y,q,z):
+def dins(x,y,q,z):
     return (int(sqrt((x-q)**2+(y-z)**2)))
 
 def maxvec(v):
@@ -33,28 +33,19 @@ def newWin(shape,corners,new):
                 miny = corners[i][1]
     cv2.rectangle(new,(minx,miny),(maxx,maxy),(0,255,0),3)
     if shape == "triangle":
-        max = 0
-       	for i in range(len(corners)-1):
-            for j in range(i+1,len(corners)):
-               	dist=dist_p(corners[i][0],corners[i][1],corners[j][0],corners[j][1])
-               	if dist > max:
-                    max=dist
-                    r=i
-                    q=j
-       	cv2.line(new,(corners[r][0],corners[r][1]),(corners[q][0],corners[q][1]),(255,0,0),3)
-       	for i in range(len(corners)-1):
-           if i != r and i !=q:
-               	dist = dist_p(corners[r][0], corners[r][1], corners[i][0], corners[i][1])
-               	if  dist > max:
-                   max=dist
-                   z=i
-       	cv2.line(new, (corners[r][0], corners[r][1]), (corners[z][0], corners[z][1]), (255,0,0), 3)
-       	cv2.line(new, (corners[q][0], corners[q][1]), (corners[z][0], corners[z][1]), (255,0,0), 3)
+       for i in range(len(corners)):
+            if corners[i][0] < minx:
+                minx = corners[i][0]
+                ym = corners[i][1]
 
-
-
-
-
+            if corners[i][0] > maxx:
+                maxx = corners[i][0]
+                ymx = corners[i][1]
+            if corners[i][1] > maxy:
+                maxy = corners[i][1]
+       cv2.line(new,(minx,ym),(maxx,ymx),(0,255,0),3)
+       cv2.line(new,(minx,ym),((int((minx+maxx)/2)),maxy),(0,255,0),3)
+       cv2.line(new,(maxx,ymx),((int((minx+maxx)/2)),maxy),(0,255,0),3)
     if shape == "circle":
         for i in range(len(corners)):
             if corners[i][0] < minx:
@@ -101,7 +92,7 @@ def fill(contour,width,height):
 
 def thresh_callback(thresh):
     edges = cv2.Canny(blur,thresh,thresh*2)
-    drawing = np.zeros(img.shape,np.uint8)     # Image to draw the contours
+    drawing = np.ones(img.shape,np.uint8)     # Image to draw the contours
     contours,hierarchy = cv2.findContours(edges,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     # for cnt in contours:
     #     cv2.drawContours(drawing,[cnt],0,(255,255,255),2)
@@ -115,8 +106,11 @@ if s:    # frame captured without any errors
     #namedWindow("cam-test",CV_WINDOW_AUTOSIZE)
     #imshow("cam-test",img)
     new = np.zeros((480,640,3),np.uint8)
+    for i in range(new.shape[0]):
+        for j in range(new.shape[1]):
+            new[i][j] = 255
     #ret,imgn = cap.read()
-    img = img[50:400,100:540]
+    img = img[30:400,80:540]
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray,(5,5),0)
     cv2.imshow('blur',blur)

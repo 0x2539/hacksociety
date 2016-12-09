@@ -1,0 +1,34 @@
+import cv2
+import numpy as np
+from sabloane import figura
+from cannyEdges import thresh_callback
+from cannyEdges import fill
+from shape_detector import ShapeDetector
+cam = VideoCapture(0)   # 0 -> index of camera
+s, img = cam.read()
+if s:
+	new = np.zeros((480,640,3),np.uint8)
+    	for i in range(new.shape[0]):
+        	for j in range(new.shape[1]):
+            		new[i][j] = 255
+    	img = img[30:400,80:540]
+    	gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    	blur = cv2.GaussianBlur(gray,(5,5),0)
+    	thresh = 100
+    	max_thresh = 255
+    	#cv2.imshow('original',img)
+    	contours = thresh_callback(thresh)
+    	for cnt in contours:
+   	 	Mat down
+    		resize(blur,down,(100,100))
+    		cv2.imshow('down',down)
+    		#corners = fill(cnt,img.shape[1],img.shape[0])
+	   	#cv2.drawContours(img,[cnt],0,(0,255,0),4)
+	   	#cv2.imshow('im',img)
+
+	   	#sd=ShapeDetector()
+	   	#shape=sd.detect(cnt)
+	   	#newWin(shape,corners,new)
+	   	#cv2.imshow('out',new)
+	cv2.waitKey(0)
+    	cv2.destroyAllWindows()
