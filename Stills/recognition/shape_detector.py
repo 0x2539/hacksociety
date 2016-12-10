@@ -18,7 +18,7 @@ class ShapeDetector:
 			#shape = "triangle"
  
 		# if the shape has 4 vertices, it is either a square or
-		# a rectangle
+		# a rectangle+
 
 		elif len(approx) == 4 :#or len(approx)==5:
 			# compute the bounding box of the contour and use the
