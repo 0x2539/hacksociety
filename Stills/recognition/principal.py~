@@ -64,6 +64,7 @@ if s:
 	   	f = figura()
         	cv2.imshow('im',img)
         	templ = f.compare(cnt)
+		cv2.imshow('pt',templ)
         
         #cv2.imshow('im',img)
 

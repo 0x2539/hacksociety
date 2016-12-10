@@ -11,19 +11,22 @@ class ShapeDetector:
 		peri = cv2.arcLength(c, True)
 		approx = cv2.approxPolyDP(c, 0.0165 * peri, True)
 		print len(approx)
+		if len(approx) <= 3:
+			shape = "line"
 		# if the shape is a triangle, it will have 3 vertices
-		if len(approx) ==3:
-			shape = "triangle"
+		#if len(approx) ==3:
+			#shape = "triangle"
  
 		# if the shape has 4 vertices, it is either a square or
 		# a rectangle
 
-		elif len(approx) == 4:
+		elif len(approx) == 4 :#or len(approx)==5:
 			# compute the bounding box of the contour and use the
 			# bounding box to compute the aspect ratio
 			(x, y, w, h) = cv2.boundingRect(approx)
 			ar = w / float(h)
- 
+ 			#print x,y,w,h
+
 			# a square will have an aspect ratio that is approximately
 			# equal to one, otherwise, the shape is a rectangle
 			shape = "square" if ar >= 0.80 and ar <= 1.15 else "rectangle"
@@ -32,7 +35,7 @@ class ShapeDetector:
 			#shape = "pentagon"
  
 		# otherwise, we assume the shape is a circle
-		elif len(approx) > 4 and len(approx) < 10:
+		elif len(approx) >=5:
 			shape = "circle"
 		# return the name of the shape
 		print shape
