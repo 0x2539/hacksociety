@@ -8,13 +8,13 @@ def dist(q,r,f,v):
 def detect(cnt):
     x, y, w, h = cv2.boundingRect(cnt)
     dr=0
-    dr=(w-x)*(h-y)-cv2.contourArea(cnt)
+    dr=abs((w-x))*abs((h-y))-cv2.contourArea(cnt)
     (q, r), rad = cv2.minEnclosingCircle(cnt)
     dc=3.14*rad*rad-cv2.contourArea(cnt)
-    print (x+w)*(y+h),cv2.contourArea(cnt)
+    #print (x+w)*(y+h),cv2.contourArea(cnt)
     q=int(q)
     r=int(r)
-    #print dc,dr
+    #print dc,abs(dr)
     if dc < dr:
         print "cerc"
         cv2.circle(new,(q,r),int(rad),(255,0,0),3)
